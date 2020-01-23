@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-This script creates a simple view of important mailbox permissions when completing a staged mailbox migration.  
+This script creates a simple view of important mailbox permissions when completing a staged hybrid mailbox migration.  
 
 .DESCRIPTION
 In a staged mailbox migration you need to be aware of permissions for groups of users. You will also likely want to disregard permissions of users who are being migrated at the same time. 
@@ -192,19 +192,15 @@ Process{
 
     #Print Table to Screen
     $UserBatchArray | Format-Table SourceRecipient,Recipient,RecipientSamAccountName,PermissionType
-
-}
-
- END {
     
  if($exportCSV){
         
-        Write-Verbose "Exporting to CSV with path of $($exportpath)$(((get-date).ToUniversalTime()).ToString("yyyyMMddThhmmssZ")).csv"
+        Write-Verbose "Exporting to CSV with path of $($exportpath)SearchOutput-$(((get-date).ToUniversalTime()).ToString("yyyyMMddThhmmssZ")).csv"
             If($WhatIfPreference -eq $True){
             
                 $WhatIfPreference = $False
                 
-                $report | Export-Csv -Path "$($exportpath)SearchOutput-$(((get-date).ToUniversalTime()).ToString("yyyyMMddThhmmssZ")).csv" -Encoding UTF8
+                $UserBatchArray | Export-Csv -Path "$($exportpath)SearchOutput-$(((get-date).ToUniversalTime()).ToString("yyyyMMddThhmmssZ")).csv" -Encoding UTF8
                 
                 $WhatIfPreference = $True
             
@@ -212,7 +208,7 @@ Process{
     
             Else {
             
-                $report | Export-Csv -Path "$($exportpath)$(((get-date).ToUniversalTime()).ToString("yyyyMMddThhmmssZ")).csv" -Encoding UTF8
+                $UserBatchArray | Export-Csv -Path "$($exportpath)SearchOutput-$(((get-date).ToUniversalTime()).ToString("yyyyMMddThhmmssZ")).csv" -Encoding UTF8
             
             }   
         
